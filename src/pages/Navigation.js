@@ -1,19 +1,22 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Auth from '../components/auth'
+import {useState} from "react";
+import {useSelector} from 'react-redux';
 
 const Navigation = () => {
-  console.log("Navi")
+  // state = {userName:store.getState().userName}
+  // console.log(store.getState().userName)
+  const getUserInfo = useSelector((state) => state);
+  const [users, setUsers] = useState("");
+
     return(
         <Navbar bg="primary" variant="dark">
-        <Container>
-        <Navbar.Brand href="#home">Mandal-Art</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Auth></Auth>
-        </Nav>
-        </Container>
-      </Navbar>
+          <Container>
+            <Navbar.Brand href="#home">{getUserInfo.userName} 님의 만다라트</Navbar.Brand>
+              <Auth setUsers={setUsers}></Auth>
+          </Container>
+        </Navbar>
     )
 };
 

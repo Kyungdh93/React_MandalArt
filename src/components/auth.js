@@ -2,22 +2,16 @@ import { GoogleAuthProvider, getAuth, signInWithRedirect, getRedirectResult, sig
 import { initializeApp } from 'firebase/app';
 import { Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import store from "../store";
+import {useSelector} from 'react-redux';
+import firebaseInfo from '../json/firebase.json';
 
 const Auth = () => {
-  const firebaseConfig = {
-    apiKey: "AIzaSyCJf8QP6hTXlYDWIiiN-gZkn16ybDUsBqM",
-    authDomain: "mandalart-dcebc.firebaseapp.com",
-    databaseURL: "https://mandalart-dcebc-default-rtdb.firebaseio.com",
-    projectId: "mandalart-dcebc",
-    storageBucket: "mandalart-dcebc.appspot.com",
-    messagingSenderId: "480006732098",
-    appId: "1:480006732098:web:9b2c4995952b97f3fd30db",
-    measurementId: "G-69DSWCKLV5"
-  };
-
+  const firebaseConfig = firebaseInfo;
   const app = initializeApp(firebaseConfig);
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
+  const getUserInfo = useSelector((state) => state);
 
   const signInClick = () => {
   signInWithRedirect(auth, provider);
@@ -37,18 +31,23 @@ const Auth = () => {
     const token = credential.accessToken;
 
     const user = result.user;
-    alert(user.displayName)
+    console.log(user.uid);
+    console.log(user.email);
+    console.log(user.displayName);
+
+    store.dispatch({type:'USERAUTH', value:user.displayName, value1:true, value2:user.uid});
   }).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     const email = error.email;
     const credential = GoogleAuthProvider.credentialFromError(error);
+    // console.log("errorCode = " + errorCode + "\n errorMessage = " + errorMessage + "\n email = " + email + "\n credential + " + credential);
   });
 
   return(
     <>
-      <Button onClick={signInClick} variant="primary">로그인</Button>
-      <Button onClick={signOutClick} variant="primary">로그아웃</Button>
+      <Button onClick={signInClick} variant="primary" hidden={getUserInfo.userLogon}>로그인</Button>
+      <Button onClick={signOutClick} variant="primary" hidden={!getUserInfo.userLogon}>로그아웃</Button>
     </>
   );
 }
