@@ -1,5 +1,6 @@
 .cell0 {
-  background-color: rgb(182, 197, 229);
+  /* background-color: rgb(182, 197, 229); */
+  background-color: #d6e4e6;
   border: 1px solid white;
   height: 100px;
   cursor: pointer;
@@ -8,9 +9,9 @@
 }
 
 .cell1 {
-  background-color: rgb(35, 129, 218);
-  /* border: 1px solid rgb(20, 31, 190); */
-  box-shadow: 5px 10px 20px rgb(52, 103, 199);
+  /* background-color: rgb(35, 129, 218); */
+  background-color: #adc9cd;
+  box-shadow: 5px 10px 20px #407c61;
   height: 100px;
   cursor: pointer;
   text-align: center;
@@ -23,7 +24,7 @@
 }
 
 .focus {
-	box-shadow: 0 0 0 3px rgb(50, 53, 201) inset;
+	box-shadow: 0 0 0 3px rgb(18, 145, 92) inset;
 }
 
 #overlay {
@@ -35,7 +36,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.8);
   z-index: 2;
   cursor: pointer;
 }
@@ -50,9 +51,8 @@
   -ms-transform: translate(-50%,-50%);
 }
 
-#input1 {
+#inputData {
   /* border: none;  */
-  /* background: initial; */
   background: transparent;
   margin-top: 20%;
   margin-left: 30%;
@@ -60,9 +60,11 @@
   height: 10%;
   color: aliceblue;
   font-size: 30px;
+  border-radius: 30px;
 }
 
-.loading{
-  text-align: center;
-  font-size: 50px;
+#inputData:focus {
+  outline: none !important;
+  border:1px solid green;
+  box-shadow: 0 0 10px #719ECE;
 }

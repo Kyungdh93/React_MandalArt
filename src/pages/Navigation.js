@@ -11,7 +11,7 @@ const Navigation = () => {
   const [users, setUsers] = useState("");
 
     return(
-        <Navbar bg="primary" variant="dark">
+        <Navbar bg="success" variant="dark">
           <Container>
             <Navbar.Brand href="#home">{getUserInfo.userName} 님의 만다라트</Navbar.Brand>
               <Auth setUsers={setUsers}></Auth>

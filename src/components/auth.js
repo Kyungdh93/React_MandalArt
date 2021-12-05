@@ -46,8 +46,8 @@ const Auth = () => {
 
   return(
     <>
-      <Button onClick={signInClick} variant="primary" hidden={getUserInfo.userLogon}>로그인</Button>
-      <Button onClick={signOutClick} variant="primary" hidden={!getUserInfo.userLogon}>로그아웃</Button>
+      <Button onClick={signInClick} variant="success" hidden={getUserInfo.userLogon}>로그인</Button>
+      <Button onClick={signOutClick} variant="success" hidden={!getUserInfo.userLogon}>로그아웃</Button>
     </>
   );
 }
