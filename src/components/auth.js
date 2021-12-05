@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from "../store";
 import {useSelector} from 'react-redux';
-import firebaseInfo from '../json/firebase.json';
+import firebaseInfo from '../json/firebase.json'; 
 
 const Auth = () => {
   const firebaseConfig = firebaseInfo;
