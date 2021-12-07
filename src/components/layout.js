@@ -52,7 +52,7 @@ const Layout = () => {
             setIsOnline({isOnline:true});
         };
         getUsers();
-    }, []);
+    }, [getUserInfo]);
     
     const updateContent = async (id, argContent, argKey) => {
         const userDoc = doc(database, test, id);

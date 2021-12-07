@@ -19,6 +19,7 @@ const Auth = () => {
 
   const signOutClick = () => {
   signOut(auth).then(() => {
+    document.location.reload();
     // Sign-out successful.
   }).catch((error) => {
     // An error happened.
@@ -31,17 +32,12 @@ const Auth = () => {
     const token = credential.accessToken;
 
     const user = result.user;
-    console.log(user.uid);
-    console.log(user.email);
-    console.log(user.displayName);
+    // console.log(user.uid);
+    // console.log(user.email);
+    // console.log(user.displayName);
 
     store.dispatch({type:'USERAUTH', value:user.displayName, value1:true, value2:user.uid});
   }).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    const email = error.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // console.log("errorCode = " + errorCode + "\n errorMessage = " + errorMessage + "\n email = " + email + "\n credential + " + credential);
   });
 
   return(
