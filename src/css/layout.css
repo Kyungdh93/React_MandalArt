@@ -63,6 +63,17 @@
   border-radius: 30px;
 }
 
+#inputData1, #inputData2 {
+  border: none; 
+  background: transparent;
+  margin-left: 30%;
+  width: 50%;
+  height: 10%;
+  color: aliceblue;
+  font-size: 30px;
+  text-align: center;
+}
+
 #inputData:focus {
   outline: none !important;
   border:1px solid green;

@@ -1,11 +1,11 @@
 import {useState, useEffect} from "react";
 
-import {database} from '../components/firebase';
-import {collection, getDocs, updateDoc, doc, setDoc} from 'firebase/firestore';
+import {database} from '../components/auth';
+import {collection, getDocs, updateDoc, doc, setDoc, onSnapshot} from 'firebase/firestore';
 
 import {useSelector} from 'react-redux';
 
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Loading from './loading';
@@ -14,36 +14,27 @@ import '../css/layout.css';
 
 let colCnt = 0;
 let rowCnt = 0;
+let data;
 const Layout = () => {
     const [mData, setDatas] = useState([]);
     const [isOnline, setIsOnline] = useState(null);
+    const [strLength, setLength] = useState(0);
 
     const getUserInfo = useSelector((state) => state);
     const test = getUserInfo.userUid === "" ? "mandal" : getUserInfo.userUid;
-    console.log("test = ",test)
     
     const usersCollectionRef = collection(database, test);
-
     useEffect(() => {
         const getUsers = async () => {
-            const data = await getDocs(usersCollectionRef);
+            console.log("useEffect")
+            // const data = await getDocs(usersCollectionRef);
+            data = await getDocs(usersCollectionRef);
             if(data.docs.length === 0){
-                for(let k=0; k<3; k++){
+                for(let k=0; k<9; k++){
                     let dataObj = {};
                     for(let i=0; i<9; i++){
                         dataObj['content'+i] = "";
                     }
-                    // await setDoc(doc(database, test, "mandal"+k), {
-                    //     content0: "",
-                    //     content1: "",
-                    //     content2: "",
-                    //     content3: "",
-                    //     content4: "",
-                    //     content5: "",
-                    //     content6: "",
-                    //     content7: "",
-                    //     content8: "",
-                    // });
                     await setDoc(doc(database, test, "mandal"+k), dataObj);
                 }
             }else{
@@ -53,27 +44,22 @@ const Layout = () => {
         };
         getUsers();
     }, [getUserInfo]);
-    
-    const updateContent = async (id, argContent, argKey) => {
-        const userDoc = doc(database, test, id);
-        const newFields = { [argKey]: argContent};
-        // for(let i=0; i<users.length; i++){
-        //     if(users[i].id === id){
-        //         users[i][argKey] = argContent;
-        //     }
-        // }
-        // setDatas({
-        //     ...users
-        // });
-        // const data = await getDocs(usersCollectionRef);
-        // setDatas(data.docs.map((doc) => ({ ...doc.data(), [argKey]: argContent})));
 
+    
+    const updateContent = async (argId, argContent, argKey) => {
+        const userDoc = doc(database, test, argId);
+        const newFields = { [argKey]: argContent};
+        data = await getDocs(usersCollectionRef);
+
+        setDatas(
+            data.docs.map((doc) => (doc.id === argId ? { ...doc.data(), [argKey]: argContent, id:doc.id} : { ...doc.data(), id:doc.id}))
+        );
         await updateDoc(userDoc, newFields);
     }
 
-    const openInput = async(cellInfo, e) => {
+    const openInput = async(cellInfo, e) => {        
         addClass(e);
-
+        
         let contentText = '';
         const data = await getDocs(usersCollectionRef);
         for(let i=0; i<data.docs.length; i++){
@@ -85,7 +71,7 @@ const Layout = () => {
                 }
             }
         }
-
+        setLength(length => contentText.length);
         document.getElementById("overlay").style.display = "block";
         document.getElementById("inputData").value = contentText;
         document.getElementById("inputData").hdnValue0 = cellInfo.split(" ")[0];
@@ -97,6 +83,10 @@ const Layout = () => {
         removeClass();
         updateContent(document.getElementById(e.target.id).hdnValue0, e.target.value, document.getElementById(e.target.id).hdnValue1);
         document.getElementById("overlay").style.display = "none";
+    }
+
+    const keyUpInput = (e) => {
+        setLength(length => e.target.value.length);
     }
 
     const keyDownInput = (e) => {
@@ -148,16 +138,43 @@ const Layout = () => {
     return(
         <>
         <div id="overlay">
-            <input type="text" id="inputData" onBlur={closeInput} onKeyDown={keyDownInput}/>
+            <input type="text" id="inputData" onBlur={closeInput} onKeyDown={keyDownInput} onKeyUp={keyUpInput} maxLength="20"/>
+            <input type="text" id="inputData1" value="20글자 미만으로 입력해주세요." readOnly/>
+            <input type="text" id="inputData2" value={strLength} readOnly/>
         </div>
         <Container>
             <Row>
-                {mData.map((mInfo) => {
-                    return(
-                    <Col key={colCnt++} className='col0'>
-                        {makeRender(mInfo)}
-                    </Col>
-                    )
+                {/* {console.log(mData)} */}
+                {mData.map((mInfo, index) => {
+                    if(index === 0 || index === 1 || index === 2){
+                        return(
+                            <Col key={colCnt++} className='col0'>
+                                {makeRender(mInfo)}
+                            </Col>
+                        )
+                    }
+                })}
+            </Row>
+            <Row>
+                {mData.map((mInfo, index) => {
+                    if(index === 3 || index === 4 || index === 5){
+                        return(
+                            <Col key={colCnt++} className='col0'>
+                                {makeRender(mInfo)}
+                            </Col>
+                        )
+                    }
+                })}
+            </Row>
+            <Row>
+                {mData.map((mInfo, index) => {
+                    if(index === 6 || index === 7 || index === 8){
+                        return(
+                            <Col key={colCnt++} className='col0'>
+                                {makeRender(mInfo)}
+                            </Col>
+                        )
+                    }
                 })}
             </Row>
         </Container>

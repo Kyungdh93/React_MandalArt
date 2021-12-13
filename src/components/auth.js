@@ -1,14 +1,15 @@
 import { GoogleAuthProvider, getAuth, signInWithRedirect, getRedirectResult, signOut } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from "firebase/firestore";
 import { Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from "../store";
 import {useSelector} from 'react-redux';
 import firebaseInfo from '../json/firebase.json'; 
+const firebaseConfig = firebaseInfo;
+const app = initializeApp(firebaseConfig);
 
-const Auth = () => {
-  const firebaseConfig = firebaseInfo;
-  const app = initializeApp(firebaseConfig);
+const Auth = () => {  
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
   const getUserInfo = useSelector((state) => state);
@@ -48,4 +49,5 @@ const Auth = () => {
   );
 }
 
+export const database = getFirestore(app);
 export default Auth;
