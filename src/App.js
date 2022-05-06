@@ -1,5 +1,5 @@
-import Navigation from "./pages/Navigation";
-import Home from "./pages/Home";
+import Navigation from "./routes/Navigation";
+import Home from "./routes/Home";
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 
 const App = () => {
