@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import store from "../store";
 import {useSelector} from 'react-redux';
 import firebaseInfo from '../json/firebase.json'; 
+
 const firebaseConfig = firebaseInfo;
 const app = initializeApp(firebaseConfig);
 
@@ -19,12 +20,11 @@ const Auth = () => {
   }
 
   const signOutClick = () => {
-  signOut(auth).then(() => {
-    document.location.reload();
-    // Sign-out successful.
-  }).catch((error) => {
-    // An error happened.
-  });
+    signOut(auth).then(() => {
+      store.dispatch({type:'USERAUTH', value:'', value1:false, value2:''});
+    }).catch((error) => {
+
+    });
   }
 
   getRedirectResult(auth)
